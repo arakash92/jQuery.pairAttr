@@ -1,0 +1,34 @@
+{
+	"name": "pairattr",
+	"title": "pairAttr",
+	"description": "jQuery plugin for pairing element attributes together so that changing one changes the other.",
+    "keywords": [
+        "attributes",
+        "pair",
+        "connect",
+        "link",
+        "classes",
+        "values",
+        "css",
+        "style",
+        "marry attributes",
+        "link attriutes",
+        "connect attributes",
+    ],
+	"version": "2.0.1",
+	"author": {
+		"name": "Petter Thowsen",
+		"email": "afflicto@afflicto.net",
+		"url": "http://github.com/afflicto",
+	},
+	"licenses": [
+		{
+			"type": "WTFPL",
+			"url": "http://www.wtfpl.net/",
+		},
+	],
+	"dependencies": {
+		"jquery": ">=1.6"
+	}
+
+}
