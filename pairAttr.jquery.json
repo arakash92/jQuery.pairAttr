@@ -13,22 +13,21 @@
         "style",
         "marry attributes",
         "link attriutes",
-        "connect attributes",
+        "connect attributes"
     ],
 	"version": "2.0.1",
 	"author": {
 		"name": "Petter Thowsen",
 		"email": "afflicto@afflicto.net",
-		"url": "http://github.com/afflicto",
+		"url": "http://github.com/afflicto"
 	},
 	"licenses": [
 		{
 			"type": "WTFPL",
-			"url": "http://www.wtfpl.net/",
-		},
+			"url": "http://www.wtfpl.net/"
+		}
 	],
 	"dependencies": {
 		"jquery": ">=1.6"
 	}
-
 }
