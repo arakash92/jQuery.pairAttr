@@ -1,3 +1,12 @@
+/*------------------------------
+ * attrChange selectors:
+ * value = value
+ * data-width = attribute
+ * id = attribute
+ * class = attribute
+ * class:myclass = single class selector
+ * css:style-property = single css style selector
+ *------------------------------*/
 ;(function ($, window, document, undefined) {
 
 
@@ -31,76 +40,99 @@
         return result;
     };
 
-    $.fn.pairAttr = function(attribute, targetElement, targetAttribute) {
-        $.pairAttrs(this, attribute, targetElement, targetAttribute);
-        return this;
-    }
+    var css = $.fn.css;
+    $.fn.css = function(prop,value) {
+        var result = css.apply(this, arguments);
 
-    $.pairAttrs = function (elem1, attr1, elem2, attr2) {
+        if (value !== undefined || typeof prop == 'object') {
+            
+            this.trigger('attrChange');
+        }
 
-        //setup change event for elem1
-        if (attr1 == 'value') {
-            $(elem1).change(function() {
-                $(elem1).trigger('attrChange.pairAttrs', ['value']);
-            });
-        }
-        if (attr2 == 'value') {
-            $(elem2).change(function() {
-                $(elem2).trigger('attrChange.pairAttrs', ['value']);
-            });
-        }
-        $(elem1).bind('attrChange.pairAttrs', function (e, attribute) {
-            var elem1Value;
-            if (attr1 == 'value') {
-                elem1Value = $(this).val();
-            }else {
-                elem1Value = $(this).attr(attr1);
+        return result;
+    };
+
+    $.pairAttrs = function (options) {
+        for (var i in options) {
+            var element = i;
+            var selector = options[i];
+            $(element).data('pairAttrs', {'element': element, 'selector': selector, elements: options});
+
+            //trigger attrChange if it's a form input
+            if (selector == 'value') {
+                $(element).bind('change', function() {
+                    $(this).trigger('attrChange');
+                });
             }
-            //check the other element
-            var elem2Value;
-            if (attr2 == 'value') {
-                elem2Value = $(elem2).val();
-            }else {
-                elem2Value = $(elem2).attr(attr2);
-            }
-            //now check if it isn't equal
-            if (elem1Value != elem2Value) {
-                //update
-                if (attr2 == 'value') {
-                    $(elem2).val(elem1Value);
+
+            $(element).bind('attrChange.pairAttrs', function() {
+                var data = $(this).data('pairAttrs');
+                
+                console.log(data.element +" attrChange");
+
+                var myValue = $.pairAttrs.methods.value($(data.element), data.selector);
+                console.log(myValue);
+                //update values for all the other elements, if they have changed
+                for (var el in data.elements) {
+                    
+                    var select = options[el];
+                    if ($.pairAttrs.methods.value(el, select) !== myValue) {
+                        $.pairAttrs.methods.value(el, select, myValue);
+                    }
+                    
+                }
+            });
+
+            //trigger an attrChange intiially
+            $(element).trigger('attrChange');
+        }
+        
+    };
+
+    $.pairAttrs.methods = {
+        value: function(element, selector, value) {
+            if (selector.indexOf('css:') != -1) {
+                //css property
+                var cssProp = selector.substr(4);
+                if (value == undefined) {
+                    console.log('returning css property: ' + cssProp);
+                    return $(element).css(cssProp);
                 }else {
-                    $(elem2).attr(attr2, elem1Value);
+                    $(element).css(cssProp, value);
+                }
+            }else if (selector.indexOf('class:') != -1) {
+                //class name
+                var className = selector.substr(6);
+                if (value == undefined) {
+                    console.log('returning class: ' + className);
+                    return $(element).hasClass(className);
+                }else {
+                    $(element).addClass(className);
+                }
+            }else if (selector == 'value') {
+                //form element value
+                var val = $(element).val();
+                if (value == undefined) {
+                    console.log('returning value: ' + val);
+                    return val;
+                }else {
+                    $(element).val(value);
+                }
+            }else {
+                //element attribute
+                var attr = $(element).attr(selector);
+                if (value == undefined) {
+                    console.log('returning ' + selector +' attribute: ' + attr);
+                }else {
+                    $(element).attr(selector, value);
                 }
             }
-        });
-        
-         $(elem2).bind('attrChange.pairAttrs', function (e, attribute) {
-            var elem2Value;
-            if (attr2 == 'value') {
-                elem2Value = $(elem2).val();
-            }else {
-                elem2Value = $(elem2).attr(attr2);
-            }
-            //check the other element
-            var elem1Value;
-            if (attr1 == 'value') {
-                elem1Value = $(elem1).val();
-            }else {
-                elem1Value = $(elem1).attr(attr1);
-            }
-            //now check if it isn't equal
-            if (elem2Value != elem1Value) {
-                //update
-                if (attr1 == 'value') {
-                    $(elem1).val(elem2Value);
-                }else {
-                    $(elem1).attr(attr1, elem2Value);
-                }
-            }
-        });
-        
-        
+        },
     };
 
 
 })(jQuery, window, document);
+
+
+
+
