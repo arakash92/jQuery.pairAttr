@@ -96,7 +96,7 @@
                 var cssProp = selector.substr(4);
                 if (value == undefined) {
                     console.log('returning css property: ' + cssProp);
-                    return $(element).css(cssProp);
+                    return $(element).css(cssProp).replace('px', '');
                 }else {
                     $(element).css(cssProp, value);
                 }
