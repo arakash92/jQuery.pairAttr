@@ -15,7 +15,7 @@
         "link attriutes",
         "connect attributes"
     ],
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"author": {
 		"name": "Petter Thowsen",
 		"email": "afflicto@afflicto.net",
@@ -27,6 +27,10 @@
 			"url": "http://www.wtfpl.net/"
 		}
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fliptopbox/jquery.conform.git"
+	},
 	"dependencies": {
 		"jquery": ">=1.6"
 	}
