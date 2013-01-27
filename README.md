@@ -1,16 +1,33 @@
 #jQuery.pairAttr
-> Pair two elements attributes so that they can be together forever!
+> Pair two (or more) elements attributes so that they can be together forever!
 
 If you have a `<div class="container" data-width="200"></div>`  
 and a `<input class="container-width" type="text">`, you can pair the data-width and the input value to always be the same.
 
-Simply include jQuery and jQuery.pairAttr.min.js in your html, and:
+Simply include the latest jQuery and jQuery.pairAttr.min.js and:
 ```js
-$.pairAttrs('input.container-width', 'value', 'div.container', 'data-width');
+$.pairAttrs({
+	'.container': 'data-width',
+	'input.container-width': 'value',
+});
 ```  
 Such that, if the value of the input changes, the new value is added to the `data-width` of the div and the other way around.
 
-##Events and supported attributes
+##Supported attributes
+* Any html attribute such as `data-width`, or `href`.
+* For form input values, use `value`.
+* for a single css style property, use `css:width`, `css:background-color` etc.
+* for a single classname, use `class:someclassname`. (This will simply watch for removal or adding of the class for one of the elements that are paired).
+
+##Events
+pairAttr fires an `attrChange` event upon:  
+
+* form input `change` event.
+* `$.setAttr` method.
+* `$.addClass` method.
+* `$.removeClass` method.
+* `$.css` method.
+
 pairAttr fires an `attrChange` event with the name of the attribute as an argument.  
 This event is fired upon changing attribute via `$().change()` method, as well as the `change` event and the `$().attr()` method.
 
