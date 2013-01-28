@@ -34,6 +34,9 @@ pairAttr fires an `attrChange` event with the name of the attribute as an argume
 This event is fired upon changing attribute via `$().change()` method, as well as the `change` event and the `$().attr()` method.
 
 ##Changelog
+###2.1.2
+* Fixed jquery.json manifest yet again.
+
 ###2.1.1
 * Fixed jquery.json manifest version.
 

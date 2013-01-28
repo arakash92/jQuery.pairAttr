@@ -11,11 +11,9 @@
         "values",
         "css",
         "style",
-        "marry attributes",
-        "link attriutes",
-        "connect attributes"
+        "input"
     ],
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"author": {
 		"name": "Petter Thowsen",
 		"email": "afflicto@afflicto.net",
