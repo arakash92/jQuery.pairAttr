@@ -33,33 +33,33 @@
 </head>
 <body>
 <div style="text-align: center;">
-	<h2><a href="https://github.com/afflicto/jQuery.pairAttr">jQuery.pairAttrs</a></h2>
+	<h2><a href="https://github.com/afflicto/jQuery.pairAttr">jQuery.pairAttr</a></h2>
 </div>
 <hr><br><br><br>
 <div style="font-size: 1.2em">
 	<input style="font-size: 1.1em;" type="text" value="I'm a input field. my value is paired to the data-name attribute of the paragraph below me"><br>
 	<p>
-		I'm a paragraph. my css width attribute is paired to the value of the input field.<br>you can <button>Change my width to '250px'</button> to see the input field update. Or update the input field of course.
+		I'm a paragraph. my css max-width attribute is paired to the value of the input field.<br>you can <button>Change my max-width to '250'</button> to see the input field update. Or update the input field of course.
 	</p>
 </div>
 <hr><br><br><br>
-pairAttrs
+pairAttr
 <pre>
-$.pairAttrs({
+$.pairAttr({
 	'input': 'value',
-	'p': 'css:width',
+	'p': 'css:max-width',
 });
 </pre>
 
 <script type="text/javascript">
 
-$.pairAttrs({
+$.pairAttr({
 	'input': 'value',
-	'p': 'css:width',
+	'p': 'css:max-width',
 });
 
 $('button').click(function() {
-	$("p").css('width', '250')
+	$("p").css('max-width', 250);
 });
 
 </script>

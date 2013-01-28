@@ -52,11 +52,12 @@
         return result;
     };
 
-    $.pairAttrs = function (options) {
+    $.pairAttr = function (options) {
+       
         for (var i in options) {
             var element = i;
             var selector = options[i];
-            $(element).data('pairAttrs', {'element': element, 'selector': selector, elements: options});
+            $(element).data('pairAttr', {'element': element, 'selector': selector, elements: options});
 
             //trigger attrChange if it's a form input
             if (selector == 'value') {
@@ -65,19 +66,19 @@
                 });
             }
 
-            $(element).bind('attrChange.pairAttrs', function() {
-                var data = $(this).data('pairAttrs');
+            $(element).bind('attrChange.pairAttr', function() {
+                var data = $(this).data('pairAttr');
                 
-                console.log(data.element +" attrChange");
+                $.pairAttr.methods.log(data.element +" attrChange");
 
-                var myValue = $.pairAttrs.methods.value($(data.element), data.selector);
-                console.log(myValue);
+                var myValue = $.pairAttr.methods.value($(data.element), data.selector);
+                $.pairAttr.methods.log(myValue);
                 //update values for all the other elements, if they have changed
                 for (var el in data.elements) {
                     
                     var select = options[el];
-                    if ($.pairAttrs.methods.value(el, select) !== myValue) {
-                        $.pairAttrs.methods.value(el, select, myValue);
+                    if ($.pairAttr.methods.value(el, select) !== myValue) {
+                        $.pairAttr.methods.value(el, select, myValue);
                     }
                     
                 }
@@ -88,14 +89,26 @@
         }
         
     };
+    $.pairAttr.debug = false;
 
-    $.pairAttrs.methods = {
+    $.pairAttr.methods = {
+        log: function(msg) {
+            if ($.pairAttr.debug) {
+                console.log(msg);
+            }
+        },
+
         value: function(element, selector, value) {
+            if (value !== undefined) {
+                if (/^\d+$/.test(value)) {
+                    var value = parseInt(value);
+                }
+            }
             if (selector.indexOf('css:') != -1) {
                 //css property
                 var cssProp = selector.substr(4);
                 if (value == undefined) {
-                    console.log('returning css property: ' + cssProp);
+                    $.pairAttr.methods.log('returning css property: ' + cssProp);
                     return $(element).css(cssProp).replace('px', '');
                 }else {
                     $(element).css(cssProp, value);
@@ -104,7 +117,7 @@
                 //class name
                 var className = selector.substr(6);
                 if (value == undefined) {
-                    console.log('returning class: ' + className);
+                    $.pairAttr.methods.log('returning class: ' + className);
                     return $(element).hasClass(className);
                 }else {
                     $(element).addClass(className);
@@ -113,7 +126,7 @@
                 //form element value
                 var val = $(element).val();
                 if (value == undefined) {
-                    console.log('returning value: ' + val);
+                    $.pairAttr.methods.log('returning value: ' + val);
                     return val;
                 }else {
                     $(element).val(value);
@@ -122,7 +135,7 @@
                 //element attribute
                 var attr = $(element).attr(selector);
                 if (value == undefined) {
-                    console.log('returning ' + selector +' attribute: ' + attr);
+                    $.pairAttr.methods.log('returning ' + selector +' attribute: ' + attr);
                 }else {
                     $(element).attr(selector, value);
                 }
